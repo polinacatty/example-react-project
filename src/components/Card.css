@@ -1,0 +1,19 @@
+.Card {
+    background-color: gray;
+    padding: 80px;
+    border-radius: 15%;
+    margin: 40px;
+    width: 300px;
+}
+
+.Title {
+    background-color: rgb(42, 228, 107);
+}
+
+.Text {
+    background-color: blueviolet;
+}
+
+.Likes {
+    background-color: red;
+}
