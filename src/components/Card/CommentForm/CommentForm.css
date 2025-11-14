@@ -1,0 +1,21 @@
+  .commentform {
+    background: white;
+    padding: 25px;
+    margin: 30px;
+  }
+  
+  .commentbuttons {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .commentsubmitButton {
+    background: #48bb78;
+    color: white;
+  }
+  
+  .commentcancelButton {
+    background: #a0aec0;
+    color: white;
+  }
+  

@@ -1,22 +1,61 @@
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import React from 'react';
-import Header from './components/Header';
-import Card from './components/Card';
-import data from './assets/mock-data.json'
+import { getArticles } from './api/fakeApi';
+import Header from './components/Header/Header';
+import Card from './components/Card/Card';
+import AddArticleForm from './components/AddArticleForm/AddArticleForm';
 
 const App = () => {
 
-  let Cards = data.map( d => <Card card={d}/>)
+  const [articles, setArticles] = useState([])
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    getArticles()
+    .then(fetchedArticles => {
+      setArticles(fetchedArticles);
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+  }, []);
+
+  const onAddArticle = (newArticle) => {
+    setArticles(prevArticles => [newArticle, ...prevArticles]);
+  };
+
+  const onUpdateArticle = (articleId, updates) => {
+    setArticles(prevArticles =>
+      prevArticles.map(article =>
+        article.articleId === articleId
+          ? { ...article, ...updates }
+          : article
+      )
+    );
+  };
+
+  let Cards = articles.map((article) => (
+  <Card 
+      key={article.articleId} 
+      card={article}
+      onUpdateArticle={onUpdateArticle}
+  />
+  ))
 
   return (
     <div className="App">
-      <Header/>
+      <Header />
       <div className='Cards-container'>
-      {Cards}
+       <AddArticleForm onAddArticle={onAddArticle}/>
+        {loading ? (
+        <div>
+          Загрузка карточек...
+        </div>
+      ) : Cards}
       </div>
     </div>
   );
 }
-
 
 export default App;

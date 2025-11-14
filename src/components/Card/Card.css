@@ -15,5 +15,9 @@
 }
 
 .Likes {
-    background-color: red;
+    background-color: rgb(179, 38, 38);
+}
+
+.Comments-Zone {
+    background-color: rgb(241, 86, 166);
 }
