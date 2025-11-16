@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './Card.css';
-import { getComments } from '../../api/fakeApi';
+import { useDispatch, useSelector} from 'react-redux';
+import { addComment, deleteComment, fetchComments } from '../../redux/actions/commentsActions';
 import CommentForm from './CommentForm/CommentForm';
 import like from './../../assets/images/like.png'
 import antiLike from './../../assets/images/antiLike.png'
@@ -9,36 +10,32 @@ import Comment from './Comment/Comment';
 
 const Card = (props) => {
 
+    const dispatch = useDispatch();
+    const commentsData = useSelector(state => 
+        state.comments[props.card.articleId] || { items: [], loading: false }
+      );
+    const comments = commentsData.items;
+    const loading = commentsData.loading;
+
     const [showComments, setShowComments] = useState(false);
-    const [comments, setComments] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [isLiked, setIsLiked] = useState(false);
+    const [hasLoadedComments, setHasLoadedComments] = useState(false);
+
+    useEffect(() => {
+        if (showComments && !hasLoadedComments) {
+          dispatch(fetchComments(props.card.articleId));
+          setHasLoadedComments(true);
+        }
+      }, [showComments]);
 
     const onClickComments = () => {
         setShowComments(!showComments);
     };
 
-    useEffect(() => {
-        if (showComments && comments.length === 0) {
-            setLoading(true);
-            getComments(props.card.articleId)
-                .then(fetchedComments => {
-                    setComments(fetchedComments);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        }
-    }, [showComments]);
-
     const onAddComment = (comment) => {
-        setComments((comments) => [...comments, comment])
-        props.onUpdateArticle(props.card.articleId, { commentsCount: props.card.commentsCount + 1 });
+        dispatch(addComment(comment));
+        props.onUpdateArticle(props.card.articleId, { commentsCount: props.card.commentsCount + 1});
     };
-
-    const deleteCommentary = () => {
-
-    }
 
     const onClickLike = () => {
         const newLikesCount = isLiked ? props.card.currentLikes - 1 : props.card.currentLikes + 1;
@@ -47,11 +44,8 @@ const Card = (props) => {
     };
 
     const onDeleteComment = (commentId) => {
-        const updatedComments = comments.filter(comment => comment.commentId !== commentId);
-        setComments(updatedComments);
-        props.onUpdateArticle(props.card.articleId, { 
-          commentsCount: props.card.commentsCount - 1
-        });
+        dispatch(deleteComment(props.card.articleId, commentId));
+        props.onUpdateArticle(props.card.articleId, { commentsCount: props.card.commentsCount - 1});
       };
     
 
