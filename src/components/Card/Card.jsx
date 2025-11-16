@@ -26,7 +26,12 @@ const Card = (props) => {
           dispatch(fetchComments(props.card.articleId));
           setHasLoadedComments(true);
         }
-      }, [showComments]);
+    }, [showComments]);
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString();
+      };
 
     const onClickComments = () => {
         setShowComments(!showComments);
@@ -58,6 +63,9 @@ const Card = (props) => {
             </div>
             <div className='Text'>
                 {props.card.text}
+            </div>
+            <div className='Date'>
+                создано: {formatDate(props.card.createdAt)}
             </div>
             <div className='Likes'>
                 <div>{props.card.currentLikes}</div>

@@ -14,7 +14,8 @@ const AddArticleForm = ({ onAddArticle }) => {
       title: title,
       text: text,
       currentLikes: 0,
-      commentsCount: 0
+      commentsCount: 0,
+      createdAt: new Date().toISOString()
     });
 
     setTitle('');
