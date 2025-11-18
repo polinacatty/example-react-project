@@ -5,6 +5,8 @@ import { addComment, deleteComment, fetchComments, updateComment } from '../../r
 import CommentForm from './CommentForm/CommentForm';
 import like from './../../assets/images/like.png'
 import antiLike from './../../assets/images/antiLike.png'
+import jackdaw from './../../assets/images/jackdaw.png'
+import square from './../../assets/images/square.png'
 import Comment from './Comment/Comment';
 
 
@@ -18,6 +20,7 @@ const Card = (props) => {
     const loading = commentsData.loading;
 
     const [showComments, setShowComments] = useState(false);
+    const [isCommentsSorted, setIsCommentsSorted] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
     const [hasLoadedComments, setHasLoadedComments] = useState(false);
 
@@ -57,8 +60,11 @@ const Card = (props) => {
         dispatch(updateComment(articleId, commentId, updates));
     };
     
+    const sortedComments = isCommentsSorted
+        ? [...comments].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        : comments;
 
-    let CommentsMassive = comments.map(comment => <Comment comment={comment} onUpdateComment={onUpdateComment} onDeleteComment={onDeleteComment}/>);
+    let CommentsMassive = sortedComments.map(comment => <Comment comment={comment} onUpdateComment={onUpdateComment} onDeleteComment={onDeleteComment}/>);
 
     return (
         <div className='Card'>
@@ -86,7 +92,13 @@ const Card = (props) => {
                     <button onClick={onClickComments}>{showComments ? 'Закрыть комментарии' : 'Открыть комментарии'}</button>
                     <div> {showComments
                         ? <div>
-
+                            сортировать по дате:
+                            <button onClick={() => setIsCommentsSorted(!isCommentsSorted)}>
+                                <img
+                                    src={isCommentsSorted ? jackdaw :  square}
+                                    width="20"
+                                    height="20" />
+                            </button>
                             {loading ? (
                                 <div>
                                     Загрузка комментариев...
