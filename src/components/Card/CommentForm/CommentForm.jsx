@@ -12,7 +12,9 @@ const AddCommentForm = (props) => {
         commentId: Date.now(),
         author: "Me",
         articleId: props.articleId,
-        text: text
+        text: text,
+        currentLikes: 0,
+        createdAt: new Date().toISOString()
     });
 
     setText('');

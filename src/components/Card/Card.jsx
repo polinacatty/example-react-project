@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './Card.css';
 import { useDispatch, useSelector} from 'react-redux';
-import { addComment, deleteComment, fetchComments } from '../../redux/actions/commentsActions';
+import { addComment, deleteComment, fetchComments, updateComment } from '../../redux/actions/commentsActions';
 import CommentForm from './CommentForm/CommentForm';
 import like from './../../assets/images/like.png'
 import antiLike from './../../assets/images/antiLike.png'
@@ -52,9 +52,13 @@ const Card = (props) => {
         dispatch(deleteComment(props.card.articleId, commentId));
         props.onUpdateArticle(props.card.articleId, { commentsCount: props.card.commentsCount - 1});
       };
+
+    const onUpdateComment = (articleId, commentId, updates) => {
+        dispatch(updateComment(articleId, commentId, updates));
+    };
     
 
-    let CommentsMassive = comments.map(comment => <Comment comment={comment} onDeleteComment={onDeleteComment}/>);
+    let CommentsMassive = comments.map(comment => <Comment comment={comment} onUpdateComment={onUpdateComment} onDeleteComment={onDeleteComment}/>);
 
     return (
         <div className='Card'>
