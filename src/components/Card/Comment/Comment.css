@@ -4,3 +4,11 @@
     padding: 10px;
     border-radius: 30%;
 }
+
+.CommentDate {
+    background-color: rgb(227, 151, 58);
+}
+
+.CommentLikes {
+    background-color: rgb(233, 134, 215);
+}

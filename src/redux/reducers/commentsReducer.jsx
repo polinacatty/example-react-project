@@ -1,4 +1,4 @@
-import { SET_COMMENTS, ADD_COMMENT, DELETE_COMMENT, SET_COMMENTS_LOADING } from './../actions/commentsActions';
+import { SET_COMMENTS, ADD_COMMENT, DELETE_COMMENT, SET_COMMENTS_LOADING, UPDATE_COMMENT } from './../actions/commentsActions';
 
 const initialState = {};
 
@@ -19,8 +19,8 @@ const commentsReducer = (state = initialState, action) => {
       return {
         ...state,
         [articleId]: {
-          ...currentData,
-          items: [...currentData.items, action.payload]
+          items: [...currentData.items, action.payload],
+          loading: false
         }
       };
 
@@ -29,9 +29,24 @@ const commentsReducer = (state = initialState, action) => {
       return {
         ...state,
         [artId]: {
-          items: (state[artId].items || []).filter(comment => comment.commentId !== commentId)
+          items: (state[artId].items || []).filter(comment => comment.commentId !== commentId),
+          loading: false
         }
       };
+
+    case UPDATE_COMMENT:
+      const lastData = state[action.payload.articleId] || { items: [], loading: false };
+      return {
+        ...state,
+        [action.payload.articleId]: {
+          items: lastData.items.map(comment =>
+            comment.commentId === action.payload.commentId
+              ? { ...comment, ...action.payload.updates }
+              : comment
+          ),
+          loading: false
+        }
+        };
 
     case SET_COMMENTS_LOADING:
       const existingData = state[action.payload.articleId] || { items: [], loading: false };
