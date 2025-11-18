@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import './Card.css';
 import { useDispatch, useSelector} from 'react-redux';
 import { addComment, deleteComment, fetchComments, updateComment } from '../../redux/actions/commentsActions';
+import Title from './Title/Title';
+import Text from './Text/Text';
 import CommentForm from './CommentForm/CommentForm';
 import like from './../../assets/images/like.png'
 import antiLike from './../../assets/images/antiLike.png'
@@ -51,6 +53,14 @@ const Card = (props) => {
         setIsLiked(!isLiked);
     };
 
+    const onEditTitle = (newTitle) => {
+        props.onUpdateArticle(props.card.articleId, { title: newTitle });
+    }
+
+    const onEditText = (newText) => {
+        props.onUpdateArticle(props.card.articleId, { text: newText });
+    }
+
     const onDeleteComment = (commentId) => {
         dispatch(deleteComment(props.card.articleId, commentId));
         props.onUpdateArticle(props.card.articleId, { commentsCount: props.card.commentsCount - 1});
@@ -64,16 +74,12 @@ const Card = (props) => {
         ? [...comments].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         : comments;
 
-    let CommentsMassive = sortedComments.map(comment => <Comment comment={comment} onUpdateComment={onUpdateComment} onDeleteComment={onDeleteComment}/>);
+    let CommentsMassive = sortedComments.map(comment => <Comment key={comment.commentId} comment={comment} onUpdateComment={onUpdateComment} onDeleteComment={onDeleteComment}/>);
 
     return (
         <div className='Card'>
-            <div className='Title'>
-                {props.card.title}
-            </div>
-            <div className='Text'>
-                {props.card.text}
-            </div>
+            <Title title={props.card.title} onEditTitle={onEditTitle}/>
+            <Text text={props.card.text} onEditText={onEditText}/>
             <div className='Date'>
                 создано: {formatDate(props.card.createdAt)}
             </div>
@@ -92,6 +98,7 @@ const Card = (props) => {
                     <button onClick={onClickComments}>{showComments ? 'Закрыть комментарии' : 'Открыть комментарии'}</button>
                     <div> {showComments
                         ? <div>
+                            <div>
                             сортировать по дате:
                             <button onClick={() => setIsCommentsSorted(!isCommentsSorted)}>
                                 <img
@@ -99,6 +106,7 @@ const Card = (props) => {
                                     width="20"
                                     height="20" />
                             </button>
+                            </div>
                             {loading ? (
                                 <div>
                                     Загрузка комментариев...

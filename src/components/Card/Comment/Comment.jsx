@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import './Comment.css';
+import Text from './CommentText/CommentText.jsx'
 import like from './../../../assets/images/like.png';
 import antiLike from './../../../assets/images/antiLike.png';
 
@@ -10,6 +11,10 @@ const Comment = (props) => {
         props.onUpdateComment(props.comment.articleId, props.comment.commentId, { currentLikes: newLikesCount, isLiked: !props.comment.isLiked});
     }
 
+    const onEditText = (newText) => {
+        props.onUpdateComment(props.comment.articleId, props.comment.commentId, { text: newText });
+    }
+
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString();
@@ -17,9 +22,7 @@ const Comment = (props) => {
 
     return (
         <div className="Comment">
-            <div className="CommenntText">
-                {props.comment.author} : {props.comment.text}
-            </div>
+            <Text commentAuthor={props.comment.author} commentText={props.comment.text} onEditText={onEditText}/>
             <div className="CommentLikes">
                 <div>{props.comment.currentLikes}</div>
                 <button onClick={onClikLike}>
