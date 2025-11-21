@@ -1,0 +1,37 @@
+.AbbreviatedCard {
+    background-color: gray;
+    padding: 80px;
+    border-radius: 15%;
+    margin: 40px;
+    width: 300px;
+}
+
+.Link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.Link:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+.AbbreviatedTitle {
+    background-color: rgb(42, 228, 107);
+}
+
+.AbbreviatedText {
+    background-color: blueviolet;
+}
+
+.AbbreviatedDate {
+    background-color: rgb(175, 150, 198);
+}
+
+.AbbreviatedLikes {
+    background-color: rgb(179, 38, 38);
+}
+
+.AbbreviatedComments {
+    background-color: rgb(241, 86, 166);
+}

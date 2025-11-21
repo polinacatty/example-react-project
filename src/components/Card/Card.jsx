@@ -24,14 +24,14 @@ const Card = (props) => {
     const [showComments, setShowComments] = useState(false);
     const [isCommentsSorted, setIsCommentsSorted] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
-    const [hasLoadedComments, setHasLoadedComments] = useState(false);
+    // const [hasLoadedComments, setHasLoadedComments] = useState(false);
 
-    useEffect(() => {
-        if (showComments && !hasLoadedComments) {
-          dispatch(fetchComments(props.card.articleId));
-          setHasLoadedComments(true);
-        }
-    }, [showComments]);
+    // useEffect(() => {
+    //     if (showComments && !hasLoadedComments) {
+    //       dispatch(fetchComments(props.card.articleId));
+    //       setHasLoadedComments(true);
+    //     }
+    // }, [showComments]);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);

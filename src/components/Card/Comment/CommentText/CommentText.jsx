@@ -8,7 +8,7 @@ const CommentText = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.onEditCommentText(commentText);
+        props.onEditText(commentText);
         setIsEdit(false)
     };
 
