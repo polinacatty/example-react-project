@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './Card.css';
-import { useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addComment, deleteComment, fetchComments, updateComment } from '../../redux/actions/commentsActions';
 import Title from './Title/Title';
 import Text from './Text/Text';
@@ -15,28 +15,28 @@ import Comment from './Comment/Comment';
 const Card = (props) => {
 
     const dispatch = useDispatch();
-    const commentsData = useSelector(state => 
+    const commentsData = useSelector(state =>
         state.comments[props.card.articleId] || { items: [], loading: false }
-      );
+    );
     const comments = commentsData.items;
     const loading = commentsData.loading;
 
     const [showComments, setShowComments] = useState(false);
     const [isCommentsSorted, setIsCommentsSorted] = useState(false);
-    const [isLiked, setIsLiked] = useState(false);
-    // const [hasLoadedComments, setHasLoadedComments] = useState(false);
 
-    // useEffect(() => {
-    //     if (showComments && !hasLoadedComments) {
-    //       dispatch(fetchComments(props.card.articleId));
-    //       setHasLoadedComments(true);
-    //     }
-    // }, [showComments]);
+    const [hasLoadedComments, setHasLoadedComments] = useState(false);
+
+    useEffect(() => {
+        if (showComments && !hasLoadedComments) {
+            dispatch(fetchComments(props.card.articleId));
+            setHasLoadedComments(true);
+        }
+    }, [showComments]);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString();
-      };
+    };
 
     const onClickComments = () => {
         setShowComments(!showComments);
@@ -44,13 +44,12 @@ const Card = (props) => {
 
     const onAddComment = (comment) => {
         dispatch(addComment(comment));
-        props.onUpdateArticle(props.card.articleId, { commentsCount: props.card.commentsCount + 1});
+        props.onUpdateArticle(props.card.articleId, { commentsCount: props.card.commentsCount + 1 });
     };
 
     const onClickLike = () => {
-        const newLikesCount = isLiked ? props.card.currentLikes - 1 : props.card.currentLikes + 1;
-        props.onUpdateArticle(props.card.articleId, { currentLikes: newLikesCount });
-        setIsLiked(!isLiked);
+        const newLikesCount = props.card.isLiked ? props.card.currentLikes - 1 : props.card.currentLikes + 1;
+        props.onUpdateArticle(props.card.articleId, { isLiked: !props.card.isLiked, currentLikes: newLikesCount });
     };
 
     const onEditTitle = (newTitle) => {
@@ -63,23 +62,23 @@ const Card = (props) => {
 
     const onDeleteComment = (commentId) => {
         dispatch(deleteComment(props.card.articleId, commentId));
-        props.onUpdateArticle(props.card.articleId, { commentsCount: props.card.commentsCount - 1});
-      };
+        props.onUpdateArticle(props.card.articleId, { commentsCount: props.card.commentsCount - 1 });
+    };
 
     const onUpdateComment = (articleId, commentId, updates) => {
         dispatch(updateComment(articleId, commentId, updates));
     };
-    
+
     const sortedComments = isCommentsSorted
         ? [...comments].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         : comments;
 
-    let CommentsMassive = sortedComments.map(comment => <Comment key={comment.commentId} comment={comment} onUpdateComment={onUpdateComment} onDeleteComment={onDeleteComment}/>);
+    let CommentsMassive = sortedComments.map(comment => <Comment key={comment.commentId} comment={comment} onUpdateComment={onUpdateComment} onDeleteComment={onDeleteComment} />);
 
     return (
         <div className='Card'>
-            <Title title={props.card.title} onEditTitle={onEditTitle}/>
-            <Text text={props.card.text} onEditText={onEditText}/>
+            <Title title={props.card.title} onEditTitle={onEditTitle} />
+            <Text text={props.card.text} onEditText={onEditText} />
             <div className='Date'>
                 создано: {formatDate(props.card.createdAt)}
             </div>
@@ -87,7 +86,7 @@ const Card = (props) => {
                 <div>{props.card.currentLikes}</div>
                 <button onClick={onClickLike}>
                     <img
-                        src={isLiked ? like : antiLike}
+                        src={props.card.isLiked ? like : antiLike}
                         width="24"
                         height="24" />
                 </button>
@@ -99,13 +98,13 @@ const Card = (props) => {
                     <div> {showComments
                         ? <div>
                             <div>
-                            сортировать по дате:
-                            <button onClick={() => setIsCommentsSorted(!isCommentsSorted)}>
-                                <img
-                                    src={isCommentsSorted ? jackdaw :  square}
-                                    width="20"
-                                    height="20" />
-                            </button>
+                                сортировать по дате:
+                                <button onClick={() => setIsCommentsSorted(!isCommentsSorted)}>
+                                    <img
+                                        src={isCommentsSorted ? jackdaw : square}
+                                        width="20"
+                                        height="20" />
+                                </button>
                             </div>
                             {loading ? (
                                 <div>
