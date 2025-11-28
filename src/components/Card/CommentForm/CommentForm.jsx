@@ -1,9 +1,49 @@
-import { useState } from 'react';
+import { useReducer} from 'react';
 import './CommentForm.css';
 
+const SET_TEXT = 'SET_TEXT';
+const SET_IS_VISIBLE = 'SET_IS_VISIBLE';
+const RESET_FORM = 'RESET_FORM';
+
+const initialState = {
+  text: '',
+  isVisible: false
+};
+
+const formReducer = (state, action) => {
+  switch(action.type) {
+     case SET_TEXT:
+      return {
+        ...state,
+        text: action.value
+      };
+     case SET_IS_VISIBLE:
+      return {
+        ...state,
+        isVisible: action.value
+      };
+     case RESET_FORM:
+      return initialState;
+     default:
+      return state;
+  }
+};
+
 const AddCommentForm = (props) => {
-  const [text, setText] = useState('');
-  const [isVisible, setIsVisible] = useState(false);
+  const [state, dispatch] = useReducer(formReducer, initialState);
+  const {text, isVisible} = state;
+
+  const setText = (value) => {
+    dispatch({ type: SET_TEXT, value });
+  };
+
+  const setIsVisible = (value) => {
+    dispatch({type: SET_IS_VISIBLE, value})
+  };
+
+  const resetForm = (value) => {
+    dispatch({type: RESET_FORM})
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -14,11 +54,11 @@ const AddCommentForm = (props) => {
         articleId: props.articleId,
         text: text,
         currentLikes: 0,
+        isLiked: false,
         createdAt: new Date().toISOString()
     });
 
-    setText('');
-    setIsVisible(false);
+    resetForm();
   };
 
   if (!isVisible) {
@@ -38,6 +78,7 @@ const AddCommentForm = (props) => {
         placeholder="Текст"
         value={text}
         onChange={(e) => setText(e.target.value)}
+        required
       />
       <div className='commentbuttons'>
         <button type="submit" className='commentsubmitButton'>
@@ -45,7 +86,7 @@ const AddCommentForm = (props) => {
         </button>
         <button 
           className='commentcancelButton'
-          onClick={() => setIsVisible(false)}
+          onClick={() => resetForm()}
         >
           Отмена
         </button>

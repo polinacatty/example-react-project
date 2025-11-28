@@ -1,15 +1,53 @@
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import './Text.css';
+
+const SET_TEXT = 'SET_TEXT';
+const SET_IS_EDIT = 'SET_IS_EDIT';
+
+const fieldReducer = (state, action) => {
+  switch(action.type) {
+     case SET_TEXT:
+      return {
+        ...state,
+        text: action.value
+      };
+     case SET_IS_EDIT:
+      return {
+        ...state,
+        isEdit: action.value
+      };
+     default:
+      return state;
+  }
+};
 
 const Text = (props) => {
 
-    const [isEdit, setIsEdit] = useState(false);
-    const [text, setText] = useState(props.text);
+    const initialState = {
+        text: props.text,
+        isEdit: false
+      };
+
+    const [state, dispatch] = useReducer(fieldReducer, initialState);
+    const {text, isEdit} = state;
+
+    const setText = (value) => {
+        dispatch({type: SET_TEXT, value});
+    };
+
+    const setIsEdit = (value) => {
+        dispatch({type: SET_IS_EDIT, value});
+    };
+
+    const resetField = () => {
+        setIsEdit(false);
+        setText(props.text);
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         props.onEditText(text);
-        setIsEdit(false)
+        setIsEdit(false);
     };
 
     if (!isEdit) {
@@ -33,11 +71,10 @@ const Text = (props) => {
                     className='input'
                 />
                 <button type="submit">Сохранить</button>
-                <button onClick={() => {setIsEdit(false); setText(props.text)}}>Отмена</button>
+                <button onClick={() => resetField()}>Отмена</button>
             </form>
         </div>
     )
 }
-
 
 export default Text;
