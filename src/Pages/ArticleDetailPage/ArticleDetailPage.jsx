@@ -7,6 +7,12 @@ import Card from './../../components/Card/Card';
 import { updateArticle } from './../../redux/actions/articlesActions';
 
 const ArticleDetailPage = () => {
+
+    useEffect(() => {
+        console.log(`Пользователь посетил страницу статьи: "${article.title}" (ID: ${articleId})`);
+        console.info(`Время посещения: ${new Date().toLocaleString()}`);
+    }, [articleId, article.title]);
+
     const { articleId } = useParams();
 
     const dispatch = useDispatch();
