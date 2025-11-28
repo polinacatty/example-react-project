@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './ArticlesListPage.css';
 import jackdaw from './../../assets/images/jackdaw.png';
@@ -13,9 +13,9 @@ const ArticlesListPage = () => {
     const loading = useSelector(state => state.articles.loading);
     const [isSorted, setIsSorted] = useState(false);
 
-    const onAddArticle = (newArticle) => {
+    const onAddArticle = useCallback((newArticle) => {
         dispatch(addArticle(newArticle));
-    };
+    }, [dispatch]);
 
     const sortedArticles = isSorted
         ? [...articles].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))

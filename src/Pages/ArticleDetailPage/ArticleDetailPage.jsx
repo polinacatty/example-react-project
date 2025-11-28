@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import './ArticleDetailPage.css';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
@@ -15,9 +15,9 @@ const ArticleDetailPage = () => {
         state.articles.items.find(a => a.articleId == articleId)
     );
 
-    const onUpdateArticle = (articleId, updates) => {
+    const onUpdateArticle = useCallback((articleId, updates) => {
         dispatch(updateArticle(articleId, updates));
-    };
+    }, [dispatch]);
 
     return (
         <div className="ArticleDetailPage">

@@ -42,32 +42,32 @@ const Card = (props) => {
         setShowComments(!showComments);
     };
 
-    const onAddComment = (comment) => {
+    const onAddComment = useCallback((comment) => {
         dispatch(addComment(comment));
         props.onUpdateArticle(props.card.articleId, { commentsCount: props.card.commentsCount + 1 });
-    };
+    }, [dispatch, props.onUpdateArticle, props.card.articleId, props.card.commentsCount]);
 
-    const onClickLike = () => {
+    const onClickLike = useCallback(() => {
         const newLikesCount = props.card.isLiked ? props.card.currentLikes - 1 : props.card.currentLikes + 1;
         props.onUpdateArticle(props.card.articleId, { isLiked: !props.card.isLiked, currentLikes: newLikesCount });
-    };
+    }, [props.onUpdateArticle, props.card.articleId, props.card.isLiked, props.card.currentLikes]);
 
-    const onEditTitle = (newTitle) => {
+    const onEditTitle = useCallback((newTitle) => {
         props.onUpdateArticle(props.card.articleId, { title: newTitle });
-    }
+    }, [props.onUpdateArticle, props.card.articleId]);
 
-    const onEditText = (newText) => {
+    const onEditText = useCallback((newText) => {
         props.onUpdateArticle(props.card.articleId, { text: newText });
-    }
+    }, [props.onUpdateArticle, props.card.articleId]);
 
-    const onDeleteComment = (commentId) => {
+    const onDeleteComment = useCallback((commentId) => {
         dispatch(deleteComment(props.card.articleId, commentId));
         props.onUpdateArticle(props.card.articleId, { commentsCount: props.card.commentsCount - 1 });
-    };
+    }, [dispatch, props.onUpdateArticle, props.card.articleId, props.card.commentsCount]);
 
-    const onUpdateComment = (articleId, commentId, updates) => {
+    const onUpdateComment = useCallback((articleId, commentId, updates) => {
         dispatch(updateComment(articleId, commentId, updates));
-    };
+    }, [dispatch]);
 
     const sortedComments = isCommentsSorted
         ? [...comments].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
