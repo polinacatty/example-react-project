@@ -8,13 +8,6 @@ import { addArticle } from './../../redux/actions/articlesActions';
 import AbbreviatedCard from './../../components/AbbreviatedCard/AbbreviatedCard';
 
 const ArticlesListPage = () => {
-
-    useEffect(() => {
-        console.log('Пользователь посетил страницу списка статей');
-        console.info(`Время посещения: ${new Date().toLocaleString()}`);
-        console.info(`Количество статей: ${articles.length}`);
-    }, [articles.length]);
-
     const dispatch = useDispatch();
     const articles = useSelector(state => state.articles.items);
     const loading = useSelector(state => state.articles.loading);
