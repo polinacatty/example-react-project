@@ -15,6 +15,7 @@ const AddArticleForm = ({ onAddArticle }) => {
       text: text,
       currentLikes: 0,
       commentsCount: 0,
+      isLiked: false,
       createdAt: new Date().toISOString()
     });
 

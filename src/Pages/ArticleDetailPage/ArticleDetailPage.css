@@ -1,0 +1,6 @@
+.ArticleDetailPage {
+        background-color: #23b8e2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
