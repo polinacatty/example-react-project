@@ -6,6 +6,7 @@
     "text": "Best company",
     "currentLikes": 7,
     "commentsCount": 1,
+    "isLiked": false,
     "createdAt" : "2024-01-15T10:30:00.00Z"
   },
   {
@@ -14,6 +15,7 @@
     "text": "Messenger for children",
     "currentLikes": 2,
     "commentsCount": 2,
+    "isLiked": false,
     "createdAt" : "2025-01-15T10:30:00.00Z"
   },
   {
@@ -22,6 +24,7 @@
     "text": "Best student",
     "currentLikes": 999,
     "commentsCount": 0,
+    "isLiked": false,
     "createdAt" : "2025-03-15T10:30:00.00Z"
   },
   {
@@ -30,6 +33,7 @@
     "text": "Some other item",
     "currentLikes": 0,
     "commentsCount": 2,
+    "isLiked": false,
     "createdAt" : "2024-10-15T10:30:00.00Z"
   },
   {
@@ -38,6 +42,7 @@
     "text": "Real text for real article",
     "currentLikes": 11,
     "commentsCount": 1,
+    "isLiked": false,
     "createdAt" : "2025-11-15T10:30:00.00Z"
   }
 ]
