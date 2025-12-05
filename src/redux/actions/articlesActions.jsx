@@ -32,6 +32,10 @@ export const fetchArticles = () => {
       .then(articles => {
         dispatch(setArticles(articles));
       })
+      .catch((error) => {
+        console.error(`Время ошибки: ${new Date().toLocaleString()}`);
+        console.error(`${error.message}`);
+      })
       .finally(() => {
         dispatch(setLoading(false));
       });

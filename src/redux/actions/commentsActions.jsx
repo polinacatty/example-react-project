@@ -38,6 +38,10 @@ export const fetchComments = (articleId) => {
       .then(comments => {
         dispatch(setComments(articleId, comments));
       })
+      .catch((error) => {
+        console.error(`Время ошибки: ${new Date().toLocaleString()}`);
+        console.error(`${error.message}`);
+      })
       .finally(() => {
         dispatch(setCommentsLoading(articleId, false));
       });

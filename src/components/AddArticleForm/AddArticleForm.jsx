@@ -1,10 +1,61 @@
-import { useState } from 'react';
+import { useReducer } from 'react';
 import './AddArticleForm.css';
 
+const SET_TITLE = 'SET_TITLE';
+const SET_TEXT = 'SET_TEXT';
+const SET_IS_VISIBLE = 'SET_IS_VISIBLE';
+const RESET_FORM = 'RESET_FORM';
+
+const initialState = {
+  title: '',
+  text: '',
+  isVisible: false
+};
+
+const formReducer = (state, action) => {
+  switch (action.type) {
+    case SET_TITLE:
+      return {
+        ...state,
+        title: action.value
+      };
+    case SET_TEXT:
+      return {
+        ...state,
+        text: action.value
+      };
+    case SET_IS_VISIBLE:
+      return {
+        ...state,
+        isVisible: action.value
+      };
+    case RESET_FORM:
+      return initialState;
+    default:
+      return state;
+  }
+};
+
 const AddArticleForm = ({ onAddArticle }) => {
-  const [title, setTitle] = useState('');
-  const [text, setText] = useState('');
-  const [isVisible, setIsVisible] = useState(false);
+
+  const [state, dispatch] = useReducer(formReducer, initialState);
+  const { title, text, isVisible } = state;
+
+  const setTitle = (value) => {
+    dispatch({ type: SET_TITLE, value });
+  };
+
+  const setText = (value) => {
+    dispatch({ type: SET_TEXT, value });
+  };
+
+  const setIsVisible = (value) => {
+    dispatch({ type: SET_IS_VISIBLE, value });
+  };
+
+  const resetForm = () => {
+    dispatch({ type: RESET_FORM });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,14 +70,12 @@ const AddArticleForm = ({ onAddArticle }) => {
       createdAt: new Date().toISOString()
     });
 
-    setTitle('');
-    setText('');
-    setIsVisible(false);
+    resetForm();
   };
 
   if (!isVisible) {
     return (
-      <button 
+      <button
         className='toggleButton'
         onClick={() => setIsVisible(true)}
       >
@@ -55,9 +104,9 @@ const AddArticleForm = ({ onAddArticle }) => {
         <button type="submit" className='submitButton'>
           Создать карточку
         </button>
-        <button 
+        <button
           className='cancelButton'
-          onClick={() => setIsVisible(false)}
+          onClick={() => resetForm()}
         >
           Отмена
         </button>

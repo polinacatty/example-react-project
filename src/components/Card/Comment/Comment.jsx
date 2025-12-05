@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import './Comment.css';
 import Text from './CommentText/CommentText.jsx'
 import like from './../../../assets/images/like.png';
@@ -11,9 +11,9 @@ const Comment = (props) => {
         props.onUpdateComment(props.comment.articleId, props.comment.commentId, { currentLikes: newLikesCount, isLiked: !props.comment.isLiked});
     }
 
-    const onEditText = (newText) => {
+    const onEditText = useCallback((newText) => {
         props.onUpdateComment(props.comment.articleId, props.comment.commentId, { text: newText });
-    }
+    }, [props.onUpdateComment, props.comment.articleId, props.comment.commentId]);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
