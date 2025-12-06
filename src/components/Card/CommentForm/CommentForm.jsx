@@ -1,5 +1,6 @@
 import { useReducer} from 'react';
 import './CommentForm.css';
+import { checkAuth, getAuthData } from './../../../api/fakeApi';
 
 const SET_TEXT = 'SET_TEXT';
 const SET_IS_VISIBLE = 'SET_IS_VISIBLE';
@@ -29,6 +30,10 @@ const formReducer = (state, action) => {
   }
 };
 
+const getAuthor = () => {
+    return checkAuth() ? getAuthData().login : 'Аноним';
+};
+
 const AddCommentForm = (props) => {
   const [state, dispatch] = useReducer(formReducer, initialState);
   const {text, isVisible} = state;
@@ -50,7 +55,7 @@ const AddCommentForm = (props) => {
 
     props.onAddComment({
         commentId: Date.now(),
-        author: "Me",
+        author: getAuthor(),
         articleId: props.articleId,
         text: text,
         currentLikes: 0,
