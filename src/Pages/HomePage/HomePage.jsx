@@ -7,9 +7,11 @@ const HomePage = () => {
             <h1>
                 Домашняя страница
             </h1>
-            <Link to='/articles'>
-                Смотреть карточки
-            </Link>
+            <dev>
+                <Link to='/articles'>
+                    Смотреть карточки
+                </Link>
+            </dev>
         </div>
     )
 }
