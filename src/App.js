@@ -8,7 +8,7 @@ import Header from './components/Header/Header';
 import HomePage from './Pages/HomePage/HomePage';
 import ArticleDetailPage from './Pages/ArticleDetailPage/ArticleDetailPage';
 import ArticlesListPage from './Pages/ArticlesListPage/ArticlesListPage';
-// import NotFoundPage from './pages/NotFoundPage';
+import AuthorizationPage from './Pages/AuthorizationPage/AuthorizationPage';
 
 const App = () => {
 
@@ -27,8 +27,7 @@ const App = () => {
                         <Route path="/" element={<HomePage />} />
                         <Route path="/articles" element={<ArticlesListPage />} />
                         <Route path="/articles/:articleId" element={<ArticleDetailPage />} />
-                        {/* <Route path="/404" element={<NotFoundPage />} />
-                        <Route path="*" element={<Navigate to="/404" replace />} /> */}
+                        <Route path="/auth" element={<AuthorizationPage />} />
                     </Routes>
                 </main>
             </div>
