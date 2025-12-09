@@ -1,6 +1,8 @@
 import { useReducer} from 'react';
 import './CommentForm.css';
 import { checkAuth, getAuthData } from './../../../api/fakeApi';
+import { generateId } from './../../../helpers/generateId'; 
+import { generateDate } from './../../../helpers/generateDate'; 
 
 const SET_TEXT = 'SET_TEXT';
 const SET_IS_VISIBLE = 'SET_IS_VISIBLE';
@@ -54,13 +56,13 @@ const AddCommentForm = (props) => {
     e.preventDefault();
 
     props.onAddComment({
-        commentId: Date.now(),
+        commentId: generateId(),
         author: getAuthor(),
         articleId: props.articleId,
         text: text,
         currentLikes: 0,
         isLiked: false,
-        createdAt: new Date().toISOString()
+        createdAt: generateDate()
     });
 
     resetForm();

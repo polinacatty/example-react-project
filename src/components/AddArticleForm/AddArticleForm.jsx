@@ -1,5 +1,7 @@
 import { useReducer } from 'react';
 import './AddArticleForm.css';
+import { generateId } from './../../helpers/generateId';
+import { generateDate } from './../../helpers/generateDate';
 
 const SET_TITLE = 'SET_TITLE';
 const SET_TEXT = 'SET_TEXT';
@@ -61,13 +63,13 @@ const AddArticleForm = ({ onAddArticle }) => {
     e.preventDefault();
 
     onAddArticle({
-      articleId: Date.now(),
+      articleId: generateId(),
       title: title,
       text: text,
       currentLikes: 0,
       commentsCount: 0,
       isLiked: false,
-      createdAt: new Date().toISOString()
+      createdAt: generateDate()
     });
 
     resetForm();

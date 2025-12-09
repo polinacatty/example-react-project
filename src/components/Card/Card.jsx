@@ -10,7 +10,8 @@ import antiLike from './../../assets/images/antiLike.png'
 import jackdaw from './../../assets/images/jackdaw.png'
 import square from './../../assets/images/square.png'
 import Comment from './Comment/Comment';
-
+import { sortByDate } from './../../helpers/sortByDate';
+import { formatDate } from './../../helpers/formatDate';
 
 const Card = (props) => {
 
@@ -32,11 +33,6 @@ const Card = (props) => {
             setHasLoadedComments(true);
         }
     }, [showComments]);
-
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString();
-    };
 
     const onClickComments = () => {
         setShowComments(!showComments);
@@ -70,7 +66,7 @@ const Card = (props) => {
     }, [dispatch]);
 
     const sortedComments = isCommentsSorted
-        ? [...comments].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        ? sortByDate(comments, true)
         : comments;
 
     let CommentsMassive = sortedComments.map(comment => <Comment key={comment.commentId} comment={comment} onUpdateComment={onUpdateComment} onDeleteComment={onDeleteComment} />);
