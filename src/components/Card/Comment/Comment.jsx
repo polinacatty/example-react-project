@@ -1,8 +1,9 @@
 import React, {useCallback, useState} from "react";
 import './Comment.css';
 import Text from './CommentText/CommentText.jsx'
-import like from './../../../assets/images/like.png';
+import like from './../../../assets/images/like.png'; 
 import antiLike from './../../../assets/images/antiLike.png';
+import { formatDate } from './../../../helpers/formatDate';
 
 const Comment = (props) => {
 
@@ -14,11 +15,6 @@ const Comment = (props) => {
     const onEditText = useCallback((newText) => {
         props.onUpdateComment(props.comment.articleId, props.comment.commentId, { text: newText });
     }, [props.onUpdateComment, props.comment.articleId, props.comment.commentId]);
-
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString();
-      };
 
     return (
         <div className="Comment">

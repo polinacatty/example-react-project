@@ -6,6 +6,7 @@ import square from './../../assets/images/square.png';
 import AddArticleForm from './../../components/AddArticleForm/AddArticleForm';
 import { addArticle } from './../../redux/actions/articlesActions';
 import AbbreviatedCard from './../../components/AbbreviatedCard/AbbreviatedCard';
+import { sortByDate } from  './../../helpers/sortByDate';
 
 const ArticlesListPage = () => {
     const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const ArticlesListPage = () => {
     }, [dispatch]);
 
     const sortedArticles = isSorted
-        ? [...articles].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        ? sortByDate(articles, true)
         : articles;
 
     const Cards = sortedArticles.map((article) => (

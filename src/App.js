@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch} from 'react-redux';
 import { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import { fetchArticles } from './redux/actions/articlesActions';
 import Header from './components/Header/Header';
