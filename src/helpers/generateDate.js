@@ -1,3 +1,3 @@
 export const generateDate = () => {
-    return new Date().toISOString();
+    return new Date(Date.now()).toISOString();
 };

@@ -1,4 +1,4 @@
-export const sortByDate = (items, isDescending) => {
+export const sortByDate = (items, isDescending=true) => {
 
     return [...items].sort((a, b) => {
         const dateA = new Date(a.createdAt);
